@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 import numpy as np
 from itertools import count
+from sys import platform
 from os.path import exists
 import json
 
@@ -23,6 +24,15 @@ if exists('./compra_realizada.json'):
 else:
     selecionados = dict()
 
+# Aplicando configurações:
+if platform =='win32':
+    config = True
+    size_col=(40,25)
+    size_bot=4,1
+else:
+    config = False
+    size_col = (42, 27)
+    size_bot = 2
 
 
 # Etiqueta poltronas
@@ -34,14 +44,16 @@ for fila in estrutura:
     for vaga in fila:
         if vaga == 1:
             # Motorista
-            botoes.append(sg.Column([[sg.T(s=4, background_color='#007080')]]))
+            botoes.append(sg.Column([[sg.T(s=4, background_color='#007080')]], size=size_col))
         elif vaga in corredor:
-            botoes.append(sg.Column([[sg.T(s=4)]])) # Corredor
+            botoes.append(sg.Column([[sg.T(s=4)]], size=size_col))  # Corredor
         else:
             if str(vaga) in selecionados.keys():
-                botoes.append(sg.Button(f'{str(next(etiqueta)).zfill(2)}', key=vaga, button_color=('#FFFFFF', '#838383')))
+                botoes.append(sg.Button(f'{str(next(etiqueta)).zfill(2)}', key=vaga, button_color=(
+                    '#FFFFFF', '#838383'), size=size_bot))
                 continue
-            botoes.append(sg.Button(f'{str(next(etiqueta)).zfill(2)}', key=vaga))
+            botoes.append(
+                sg.Button(f'{str(next(etiqueta)).zfill(2)}', key=vaga, size=size_bot))
     composicao_botoes.append(botoes[:])
     botoes = []
 
@@ -53,7 +65,7 @@ sg.theme('DarkAmber') # Tema
 
 # Composição da janela
 layout = [
-    [sg.Text('Selecione o(s) acento(s) que deseja comprar:')],
+    [sg.Text('Selecione o(s) acento(s) para compra:')],
     composicao_botoes,
     [sg.Button('Comprar', key='-b-'), sg.Button('Limpar', key='-cls-')]
 ]
@@ -61,7 +73,7 @@ layout = [
 
 
 # Nova janela
-window = sg.Window('PoccoBus', layout)
+window = sg.Window('@c3nt0', layout, resizable=config, finalize=config)
 
 # Seleção temporária:
 selec_temp = dict()
@@ -69,6 +81,7 @@ selec_temp = dict()
 # App
 while 1:
     event, values = window.read()
+    
     if event == sg.WIN_CLOSED: # Fechamento de janela
         # import pdb
         # pdb.set_trace()
@@ -90,7 +103,7 @@ while 1:
             f.write(relatorio)
         break
 
-    elif isinstance(event, np.int64):
+    elif isinstance(event, np.integer):
         if window[event].ButtonColor[1] == '#283b5b':
             window[event].Update(button_color=('#FFFFFF', 'red'))
             selec_temp[int(event)] = window[event].ButtonText
