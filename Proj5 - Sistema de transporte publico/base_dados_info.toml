@@ -1,0 +1,14 @@
+# # Checando permissões:
+# https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal
+
+# https://github.com/Azure-Samples/azure-samples-python-management/blob/master/samples/sql/manage_database.py
+
+[config]
+server = 'sql-estudo.database.windows.net'
+driver = '{ODBC Driver 18 for SQL Server}'
+database = 'db-estudos'
+username = 'ricardo.sousa@blueshift.com.br'
+Authentication='ActiveDirectoryInteractive'
+port = '1433'
+grupo = 'Estudos-Azure'
+local = 'eastus'

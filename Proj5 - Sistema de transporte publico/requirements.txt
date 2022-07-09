@@ -1,0 +1,5 @@
+colorama==0.4.4
+keyboard==0.13.5
+pyodbc==4.0.32
+rich==12.4.4
+toml==0.10.2

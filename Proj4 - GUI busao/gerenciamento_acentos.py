@@ -73,7 +73,7 @@ layout = [
 
 
 # Nova janela
-window = sg.Window('@c3nt0', layout, resizable=config, finalize=config)
+window = sg.Window('AutoBusao', layout, resizable=config, finalize=config)
 
 # Seleção temporária:
 selec_temp = dict()
